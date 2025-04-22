@@ -12,7 +12,7 @@ PointClusters::~PointClusters() {
 }
 
 void PointClusters::update() {
-  updates.send({});
+//  updates.send({});
 }
 
 void PointClusters::add(glm::vec2 position) {
@@ -43,6 +43,7 @@ void PointClusters::updateClusters() {
 }
 
 void PointClusters::threadedFunction() {
+  bool needUpdate = false;
   ClusterUpdate update;
   while (updates.receive(update)) {
     lock();
@@ -51,15 +52,19 @@ void PointClusters::threadedFunction() {
     do {
       std::for_each(update.newPoints.begin(),
                     update.newPoints.end(),
-                    [&] (auto& p) { points.push_back(std::array<float, 2> {p.x, p.y}); });
+                    [&] (auto& p) {
+        points.push_back(std::array<float, 2> {p.x, p.y});
+        needUpdate = true;
+      });
     } while(updates.tryReceive(update));
 
     // erase oldest 5% of the max
     if (points.size() > maxSourcePointsParameter) {
       points.erase(points.begin(), points.begin() + maxSourcePointsParameter*5/100);
+      needUpdate = true;
     }
     
-    updateClusters();
+    if (needUpdate) updateClusters();
 
     unlock();
   }
