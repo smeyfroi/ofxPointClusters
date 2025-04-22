@@ -39,7 +39,7 @@ void ofApp::update(){
   pointClusters.update();
 
   for (const auto& c : pointClusters.getClusters()) {
-    introspector.addCircle(c.position.x, c.position.y, 5.0/ofGetWindowWidth(), ofColor::red, true, 3); // introspection: medium red circle for cluster
+    introspector.addCircle(c.x, c.y, 5.0/ofGetWindowWidth(), ofColor::red, true, 3); // introspection: medium red circle for cluster
   }
 }
 

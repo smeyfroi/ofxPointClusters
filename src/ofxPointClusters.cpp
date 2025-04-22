@@ -20,7 +20,7 @@ void PointClusters::add(glm::vec2 position) {
   updates.send(update);
 }
 
-std::vector<Cluster> PointClusters::getClusters() {
+std::vector<glm::vec2> PointClusters::getClusters() {
   lock();
   auto result = clusters;
   unlock();
@@ -38,8 +38,7 @@ void PointClusters::updateClusters() {
   clusters.clear();
   for (const auto& cluster : std::get<0>(clusterResults)) {
     float x = cluster[0]; float y = cluster[1];
-    Cluster c { {x, y} };
-    clusters.push_back(c);
+    clusters.emplace_back(glm::vec2 {x, y});
   }
 }
 
