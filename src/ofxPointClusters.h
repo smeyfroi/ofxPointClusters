@@ -19,8 +19,8 @@ public:
   
   std::string getParameterGroupName() const { return "Point Clusters"; }
   ofParameterGroup parameters;
-  ofParameter<int> maxSourcePointsParameter { "maxSourcePointsParameter", 4000, 1000, 96000 }; // Note: 1600 raw samples per frame at 30fps, 48K sample-rate
-  ofParameter<int> clustersParameter { "clustersParameter", 5, 3, 20 };
+  ofParameter<int> maxSourcePointsParameter { "maxSourcePoints", 2000, 500, 96000 }; // Note: we only use "valid" samples
+  ofParameter<int> clustersParameter { "clusters", 11, 3, 27 };
   ofParameterGroup& getParameterGroup();
 
 protected:
