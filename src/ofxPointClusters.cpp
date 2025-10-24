@@ -70,6 +70,14 @@ void PointClusters::threadedFunction() {
   }
 }
 
+int PointClusters::getMinClusters() {
+  return clustersParameter.getMin();
+}
+
+int PointClusters::getMaxClusters() {
+  return clustersParameter.getMax();
+}
+
 ofParameterGroup& PointClusters::getParameterGroup() {
   if (parameters.size() == 0) {
     parameters.setName(getParameterGroupName());
