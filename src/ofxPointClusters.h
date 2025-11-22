@@ -15,14 +15,15 @@ public:
   void update();
   void add(glm::vec2 position);
   size_t size() const { return clusters.size(); };
-  int getMinClusters();
-  int getMaxClusters();
+  int getNumClusters() const;
+  int getMinClusters() const;
+  int getMaxClusters() const;
   std::vector<glm::vec2> getClusters();
   
   std::string getParameterGroupName() const { return "Point Clusters"; }
   ofParameterGroup parameters;
-  ofParameter<int> maxSourcePointsParameter { "maxSourcePoints", 2000, 500, 96000 }; // Note: we only use "valid" samples
-  ofParameter<int> clustersParameter { "clusters", 7, 3, 9 };
+  ofParameter<int> maxSourcePointsParameter { "Max Source Points", 2000, 500, 96000 }; // Note: we only use "valid" samples
+  ofParameter<float> clustersParameter { "Clusters", 5.0, 2.0, 11.0 };
   ofParameterGroup& getParameterGroup();
 
 protected:

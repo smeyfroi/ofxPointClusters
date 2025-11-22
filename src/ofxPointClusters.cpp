@@ -22,16 +22,16 @@ void PointClusters::add(glm::vec2 position) {
 
 std::vector<glm::vec2> PointClusters::getClusters() {
   lock();
-  auto result = clusters;
+  auto result = clusters; // copy
   unlock();
   return result;
 }
 
 void PointClusters::updateClusters() {
-  if (points.size() < clustersParameter) return;
+  if (points.size() < getNumClusters()) return;
   
   std::tuple<std::vector<std::array<float, 2>>, std::vector<uint32_t>> clusterResults;
-  dkm::clustering_parameters<float> params { static_cast<uint32_t>(clustersParameter) };
+  dkm::clustering_parameters<float> params { static_cast<uint32_t>(getNumClusters()) };
   params.set_random_seed(1000); // keep clusters stable
   clusterResults = dkm::kmeans_lloyd(points, params);
 
@@ -70,11 +70,15 @@ void PointClusters::threadedFunction() {
   }
 }
 
-int PointClusters::getMinClusters() {
+int PointClusters::getNumClusters() const {
+  return clustersParameter.get();
+}
+
+int PointClusters::getMinClusters() const {
   return clustersParameter.getMin();
 }
 
-int PointClusters::getMaxClusters() {
+int PointClusters::getMaxClusters() const {
   return clustersParameter.getMax();
 }
 
