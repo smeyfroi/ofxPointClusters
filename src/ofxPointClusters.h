@@ -14,7 +14,7 @@ public:
   ~PointClusters();
   void update();
   void add(glm::vec2 position);
-  size_t size() const { return clusters.size(); };
+  size_t size();
   int getNumClusters() const;
   int getMinClusters() const;
   int getMaxClusters() const;

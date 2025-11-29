@@ -21,10 +21,13 @@ void PointClusters::add(glm::vec2 position) {
 }
 
 std::vector<glm::vec2> PointClusters::getClusters() {
-  lock();
-  auto result = clusters; // copy
-  unlock();
-  return result;
+  std::lock_guard<std::mutex> guard(mutex);
+  return clusters;
+}
+
+size_t PointClusters::size() {
+  std::lock_guard<std::mutex> guard(mutex);
+  return clusters.size();
 }
 
 void PointClusters::updateClusters() {
@@ -46,7 +49,7 @@ void PointClusters::threadedFunction() {
   bool needUpdate = false;
   ClusterUpdate update;
   while (updates.receive(update)) {
-    lock();
+    std::lock_guard<std::mutex> guard(mutex);
     
     // add new points
     do {
@@ -65,8 +68,6 @@ void PointClusters::threadedFunction() {
     }
     
     if (needUpdate) updateClusters();
-
-    unlock();
   }
 }
 
