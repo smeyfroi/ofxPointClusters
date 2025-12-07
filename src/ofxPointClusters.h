@@ -1,5 +1,9 @@
 #pragma once
 
+#include <array>
+#include <string>
+#include <vector>
+
 #include "ofMain.h"
 #include "ofParameter.h"
 
