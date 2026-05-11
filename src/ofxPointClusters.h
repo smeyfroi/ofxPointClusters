@@ -38,7 +38,7 @@ public:
 
   std::string getParameterGroupName() const { return "Point Clusters"; }
   ofParameterGroup parameters;
-  ofParameter<int> maxSourcePointsParameter { "Max Source Points", 2000, 50, 96000 }; // Note: we only use "valid" samples; floor lowered from 500 to 50 to support video-rate sources where points stream in much slower than audio
+  ofParameter<int> maxSourcePointsParameter { "Max Source Points", 2000, 20, 96000 }; // Note: we only use "valid" samples. Floor 20 keeps clustering stable for typical cluster counts (max 17) while letting the VideoFast preset's 40 land correctly without parameter-floor clamping. Floor history: 500 → 50 → 20.
   ofParameter<float> clustersParameter { "Clusters", 5.0, 2.0, 17.0 };
   ofParameterGroup& getParameterGroup();
 
